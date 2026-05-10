@@ -16,10 +16,17 @@ export class Products implements OnInit {
   ngOnInit(): void {
     this.getAllProducts();
   }
-  getAllProducts() {
-    this.products = this.productService.getProducts();
+  getAllProducts() : void {
+    this.products = this.productService.getProducts().subscribe({
+      next: resp => {
+        this.products = resp;
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
   }
-  deleteProduct(product: any): void {
+  deleteProduct(product : any) {
     this.productService.deleteProduct(product);
     this.getAllProducts();
   }
